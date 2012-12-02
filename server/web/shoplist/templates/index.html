@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="购物 搜索 商品 价格 监控 通知" />
+	<title> 献给乐乐妈妈的购物网站</title>
+	<!-- <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/resources/dojo.css"> 
+	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dijit/themes/tundra/tundra.css">
+	-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mingle.css') }}">
+	<link type="text/css" href="static/js/css/ui-lightness/jquery-ui-1.8.23.custom.css" rel="stylesheet" />
+	<script type="text/javascript" src="/static/js/jquery-1.8.0.js"></script>
+	<script type="text/javascript" src="/static/js/jquery-ui-1.8.23.custom.min.js"></script>
+	<script type="text/javascript" src="/static/js/simpletpl.js"></script>
+	<script type="text/javascript" src="/static/js/formater.js"></script>
+	<script id="watch_div_tpl" type="text/html">
+		<div id="watch_<%=id%>" class="watchListItem">
+			<div class="image"> <img class="goods-img" src="<%=picurl%>" /> </div>
+			<div class="desc"> <p class="title"><%=title%></p>
+				<ul>
+					<li class="cur-price"><span class="price-label">当前价格:</span><span class="price-value"><%=currencyFormatted(price)%></span></li>
+					<li class="watch-price"><span class="price-label">期望价格:</span><span class="price-value"><%=currencyFormatted(watch_price)%></span></li>
+					<li><span>关注时间:</span><span><%=formatTimestamp(create_time)%></span></li>
+				</ul>
+			</div>
+			<div class="operation"><a id="linkDelWatch_<%=id%>" href="#">取消关注</a></div>
+		</div>
+	</script>
+
+	<script type="text/javascript">
+		// 创建一个div对象.
+		function createWatchDiv(watch) {
+			html = tmpl("watch_div_tpl", watch);
+			return html;
+		}
+        function appendWatch(watch) {
+			watch.id = watch.goodsid;
+			var div = $(createWatchDiv(watch));
+			$('#watchList').prepend(div);
+			$('a#linkDelWatch_'+watch.goodsid).bind('click', function() {
+					var param = {goodsid:goods.goodsid};
+					$.getJSON('/delwatch', param, function(resp) {
+						delWatch(goods.goodsid);
+					});
+					return false;
+			});
+
+		}
+      function delWatch(goodsid) {
+		   $('#watch_'+goodsid).remove();
+	   }
+
+		function showAddWatch() {
+			$("#add-watch-dialog").dialog( {modal: true, width: 400, title: "添加监控"});
+		}
+		function onGoodsInfoReturned(data) {
+			if (data.code == 0) {
+				$("#add-watch-dialog").dialog("close");
+				var dlg = $("#add-watch-step2-dialog");
+				$('.title', dlg).text(data.goods.title);
+				$('.image', dlg).attr("src", data.goods.picurl);
+				$('.price', dlg).text(data.goods.price);
+				$('input[name="goodsid"]', dlg).val(data.goods.goodsid);
+				dlg.dialog({modal: true, width: 400});
+			} else {
+				alert("获取商品信息失败");
+			}
+		}
+		function onAddWatchBtnClicked() {
+			var param = {
+					url:$('input[name="url"]').val()
+				};
+				$.getJSON('/getgoodsinfo', param, onGoodsInfoReturned);
+		}
+		function onAddWatch2BtnClicked() {
+			var param = {
+				goodsid: $('input[name="goodsid"]').val(),
+				watchprice: $('input[name="watchprice"]').val()
+				};
+				$.getJSON('/addwatch', param, onAddWatch);
+		}
+		function onAddWatch(data) {
+			var dlg = $("#add-watch-step2-dialog");
+			if (data.code == 0) {
+				goods = {};
+				goods.goodsid = $('input[name="goodsid"]', dlg).val();
+				goods.title = $('.title', dlg).text();
+				goods.picurl = $('.image', dlg).attr('src');
+				goods.price = $('.price', dlg).text();
+				goods.notify = 1;
+				goods.notify_param = "price:" + $('input[name="watchprice"]').val();
+				appendWatch(goods);
+				dlg.dialog("close");
+			}
+		}
+
+		function doAddWatch() {
+			var param = {
+					url:$('input[name="url"]').val()
+				};
+				$.getJSON('/addwatch', param, function(data) {
+					if (data.code == 0) {
+					    appendWatch(data.goods);
+					}
+
+				});
+				return false;
+		}
+		$(function() {
+			$.getJSON('/getwatch', null, function(resp) {
+				if (resp.code != 0) {
+				    return;
+				}
+				var count = resp.watchlist.length;
+				for (var i=0; i<count; ++i) {
+				    var price  = resp.watchlist[i].notify_param.split(':')[1];
+					resp.watchlist[i].watch_price = price;
+					appendWatch(resp.watchlist[i]);
+				}
+				
+			});
+			$('a#linkAddWatch').bind('click', function() {
+				showAddWatch();
+				return false;
+			});
+			$('#add-watch-btn').bind('click', onAddWatchBtnClicked);
+			$('#add-watch2-btn').bind('click', onAddWatch2BtnClicked);
+				
+		});
+	</script>
+
+</head>
+
+<body class="mingle">
+<div id="mingle-nav">
+	<div id="mingle-nav-bd" class="clear-fix">
+		<div class="nav-links">
+			{% if not user  %}
+			<a class="login-link" href="/login">登陆</a>
+			<a href="/regist">注册</a>
+			{% else %}
+			<span class="login-link"> {{ user.nickname }} </span>
+			<a class="login-link" href="/logout">登出</a>
+			{% endif %}
+		</div>
+	</div>
+</div>
+<div id="mingle-header" class="clear-fix">
+	<div id="mingle-logo"> <img class="logo"  src="static/images/logo.png"  /></div>
+	<div id="mingle-search">
+		<form id="form-search" action="" method="POST" >
+			<input type="text" id="search-input" >
+			<input type="submit" id="searchSubmit" value="搜索" class="search-btn">
+		</form>
+	</div>
+</div>
+
+<div id="mingle-profile" class="clear-fix">
+	<div id="profile-menu" class="menu">
+		<p>这里是menu</p>
+	</div>
+	<div class="profile-content">
+		<div id="watch">
+			<div id="addWatch">
+				<a href=#  id="linkAddWatch">添加商品监控</a> 
+			</div>
+			<div id="watchList"> </div>
+		</div>
+	</div>
+</div>
+<div id="mingle-footer" class="clear-fix">
+	<div>
+		<a href="/" class="footerLink">使用条款</a>
+		<a href="/" class="footerLink">隐私政策</a>
+   </div>
+</div>
+<div id="add-watch-dialog" class="dialog">
+	<span>输入关注的url</span>
+	<input type="text" name="url" value="" class="url-input" />
+	<input id="add-watch-btn" type="button" value="确定" />
+</div>
+<div id="add-watch-step2-dialog" class="dialog">
+	<span class="title">商品标题</span>
+	<img class="image" alt="商品图片"/>
+	<span>当前价格</span><span class="price"></span>
+	<span>期望价格</span><input type="text" name="watchprice" />
+	<input id="add-watch2-btn" type="button" value="添加提醒" />
+	<input name="goodsid" value="" style="display:none" />
+</div>
+
+</body>
+</html>

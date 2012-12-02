@@ -1,0 +1,44 @@
+#widget_popupWatchDate
+{
+	font-size: 16px;
+	font-weight: bold;
+	height: 29px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	outline-style: none;
+	padding-top: 6px;
+	padding-left: 6px;
+	border: 2px solid #F0F0F0;
+	background: -webkit-gradient(linear, left top, left bottom, from(#e7e7e7), to(#ffffff));
+	background: -moz-linear-gradient(top, #e7e7e7, #ffffff);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e7e7e7', endColorstr='#ffffff');
+}
+
+#widget_popupWatchTime
+{
+	font-size: 16px;
+	font-weight: bold;
+	height: 29px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	outline-style: none;
+	padding-top: 6px;
+	padding-left: 6px;
+	border: 2px solid #F0F0F0;
+	background: -webkit-gradient(linear, left top, left bottom, from(#e7e7e7), to(#ffffff));
+	background: -moz-linear-gradient(top, #e7e7e7, #ffffff);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e7e7e7', endColorstr='#ffffff');
+}
+
+.tundraOverride .dijitArrowButtonContainer
+{
+	line-height: 25px;
+	background: none;
+	border: 0px;
+}
+
+.tundraOverride .dijitPopup
+{
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}

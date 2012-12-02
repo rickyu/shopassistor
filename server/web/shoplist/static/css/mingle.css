@@ -1,0 +1,142 @@
+body
+{
+	margin: 0px;	
+	font-family: 'Helvetica Neue', arial, sans-serif;
+	font-size: 13px;
+	background-color: #FFFFFF;
+	text-align: center;
+}
+
+div#mingle-nav
+{
+	position:relative;
+}
+#mingle-nav-bd
+{
+	margin:0 auto;
+	width: 990px;
+	padding-top: 10px;
+	height: 23px;
+}
+.clear-fix
+{
+	clear:both;
+}
+.nav-links 
+{
+	float: right; 
+	position: relative;
+	background-color: yellow;
+	border: thin dashed red;
+}
+.login-link 
+{
+	height: 22px;
+	line-height:23px;
+	overflow: hidden;
+	padding: 0 12px;
+}
+
+#mingle-header
+{
+	margin: 0 auto;
+	width: 990px;
+	clear: both;
+	min-width: 990px;
+	padding-top: 10px;
+}
+#mingle-logo
+{
+	float:left;
+	padding-right: 10px;
+	position: relative;
+	z-index: 1;
+}
+div#mingle-logo .logo
+{
+	height: 43px;
+}
+#mingle-search
+{
+	position: relative;
+	height: 43px;
+	float: right;
+}
+#search-input
+{
+	height: 23px;
+	width: 770px;
+}
+.search-btn
+{
+	height: 30px;
+	margin-left: 5px;
+}
+
+#mingle-profile
+{
+	margin: 10px auto;
+	width: 990px;
+}
+
+.menu
+{
+	border: 1px solid #D4D4E1;
+	border-radius: 4px 4px 4px 4px;
+	float:left;
+	width: 170px;
+}
+.profile-content
+{
+	float:left;
+	width: 800px;
+}
+div#watch
+{
+	/* display: none; */
+}
+
+div.watchListItem
+{
+	height: 200px;
+	margin-top: 5px;
+	border: 1px solid #ABABAB;
+	border-radius: 4px 4px 4px 4px;
+	padding: 5px;
+}
+div.watchListItem div.desc
+{
+	float: left;
+	text-align: left;
+}
+div.watchListItem div.image
+{
+	float: left;
+}
+div.watchListItem div.operation
+{
+	float: right;
+}
+div.watchListItem img.goods-img
+{
+	width: 160px;
+	height: 200px;
+}
+.url-input
+{
+	width: 300px;
+}
+#mingle-footer
+{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-top: 10px;
+}
+.dialog
+{
+	display: none;
+}
+#add-watch-step2-dialog
+{
+	width: 400px;
+}

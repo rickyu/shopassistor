@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="购物 搜索 商品 价格 监控 通知" />
+	<title> 献给乐乐妈妈的购物网站</title>
+	<!-- <link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/resources/dojo.css"> 
+	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dijit/themes/tundra/tundra.css">
+	-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/evoqumain.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tundraoverride.css') }}">
+	<link href="http://st.maomaokan.com/css/main.css?v=20120712" type="text/css" rel="stylesheet" />
+	<link href="http://st.maomaokan.com/js/selectbox/jquery.selectBox.css?v=20120708" type="text/css" rel="stylesheet" />
+
+</head>
+
+<body class="tundra">
+
+<div id="main">
+	<div id="searchBar">
+		<div id="searchForm">
+			<form action="" method="POST" onsubmit="ui.search(true,true);return false;">
+				<input type="text" id="searchInput" onfocus="ui.searchInput();ui.hideError();">
+				<input type="submit" id="searchSubmit" value="搜索">
+			</form>
+		</div>
+		<div id="loginLinks">
+			<a href="/login">登陆</a>
+			<a href="/regist">注册</a>
+		</div>
+	</div>
+	<div id="login">
+		<form id="frmLogin" method="post" action="/dologin" class="Form StaticForm AuthForm" />
+			<ul>
+				<li><label>注册邮箱:</label><input type="text" name="email" id="email" value="" /><em></em></li>
+				<li><label>密码:</label><input type="password" name="password" id="password" value="" /><em></em></li>
+				<li><input type="submit" name="submit" id="submit" value="登陆" /></li>
+
+			</ul>
+		</form>
+	</div>
+
+	<div id="footer">
+		<div id="footerLeft"></div>
+			<ul class="footerLinks">
+				<li class="footerLink"><a href="/" class="footerLink">使用条款</a></li>
+				<li class="footerLink"><a href="/" class="footerLink">隐私政策</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+</body>
+</html>
