@@ -61,13 +61,17 @@ def delwatch():
     watchlist.del_watch(session['uid'], goodsid)
     return jsonify(code=0)
 
-@app.route('/getgoodsinfo')
+@app.route('/getgoodsinfo', methods=['POST', 'GET'])
 def get_goods_info():
     if not 'uid' in session:
+        print 'session uid not have'
         return jsonify(code=1)
     url = request.args['url']
+    print url
     goods_model = GoodsModel(app.config['MYSQL_AGENT'])
     goods = goods_model.add_goods(url)
-    return jsonify(code=0, goods=goods[0])
+    str = jsonify(code=0, goods=goods[0])
+    print str
+    return str
 
 
